@@ -1,22 +1,19 @@
-FROM ubuntu:18.04
+FROM alpine:3.7
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get --assume-yes dist-upgrade && \
-    DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install \
+RUN apk add --update \
+        bash \
         curl \
-        python \
-        python-dev \
+        python2 \
+        python2-dev \
         python3 \
-        python3-dev \
-        vim && \
-    apt-get autoremove --assume-yes && \
-    apt-get clean && \
-    rm --force --recursive /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+        python3-dev
+        
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3 && \
     curl https://bootstrap.pypa.io/get-pip.py | python && \
     pip3 install pylint && \
     pip install pylint
 
 COPY pylint2 pylint3 /usr/local/bin/
+
+CMD ["/bin/bash"]
 
